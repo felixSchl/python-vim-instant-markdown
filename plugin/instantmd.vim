@@ -1,5 +1,5 @@
 " vim: set fdm=marker :
-let s:scriptfolder = expand('<sfile>:p:h').'/md_instant'
+let s:scriptfolder = expand('<sfile>:p:h').'/instantmd'
 
 if !has('python')
     echo "Error: Required vim compiled with +python"
