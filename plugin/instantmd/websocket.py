@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import socket
 import base64
 import hashlib
 import struct
-from select import select
 
 class WebSocket():
 
@@ -47,7 +45,7 @@ class WebSocket():
         for cnt, d in enumerate(raw):
             ret += chr(ord(d) ^ ord(mask[cnt%4]))
         return ret
-                      
+
     @staticmethod
     def send(conn, data):
         head = '\x81'
@@ -58,41 +56,3 @@ class WebSocket():
         else:
             head += struct.pack('!BQ', 127, len(data))
         conn.send(head+data)
-
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-socket_list = set()
-
-def sendall(data):
-    for sock in socket_list:
-        if sock != server:
-            WebSocket.send(sock, data)
-
-def process(conn, data): #you should change this method
-    WebSocket.send(conn, data)
-
-def main(handle=process):
-    port = 7001
-    try:
-        server.bind(('', port))
-        server.listen(100)
-    except Exception as e:
-        print(e)
-        exit()
-    socket_list.add(server)
-    print('server start on port %d' % port)
-    while True:
-        r, w, e = select(socket_list, [], [])
-        for sock in r:
-            if sock == server:
-                conn, addr = sock.accept()
-                if WebSocket.handshake(conn):
-                    socket_list.add(conn)
-            else:
-                data = WebSocket.recv(sock)
-                if not data:
-                    socket_list.remove(sock)
-                else:
-                    handle(sock, data)
-
-if __name__ == '__main__':
-    main()
