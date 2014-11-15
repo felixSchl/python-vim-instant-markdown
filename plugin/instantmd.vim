@@ -83,7 +83,7 @@ fu! s:startDaemon()
 python << EOF
 if not INSTANT.running:
     INSTANT.start_threads()
-    import sys, time
+    import os, sys, time
     sys.stdout = open(os.path.devnull, 'w')
     sys.stderr = open(os.path.devnull, 'w')
 EOF
