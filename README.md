@@ -1,6 +1,8 @@
 #python-vim-instant-markdown
 
-Fork of isnowfy's [python-vim-instant-markdown][isnowfy-repo].
+> Renders a markdown preview as you type
+
+This is a fork of isnowfy's [python-vim-instant-markdown][isnowfy-repo].
 
 This fork brings the following improvements:
 
